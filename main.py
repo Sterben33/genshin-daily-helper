@@ -8,6 +8,7 @@ from aiogram import Bot
 from aiogram.enums.parse_mode import ParseMode
 
 import db.migrate
+import menu
 from roter import dp
 
 TOKEN = "6623864316:AAE7W45MGBnNYaI99TNhCL9pLOszHQ-7Hh8"
@@ -24,7 +25,8 @@ async def scheduled(wait_for, bot: Bot):
         client = genshin.Client({"ltuid": user[0], "ltoken": user[1]}, game=genshin.Game.GENSHIN)
         notes = await client.get_notes()
         if not notes.claimed_commission_reward:
-            await client.claim_daily_reward()
+            a = await client.claim_daily_reward()
+            await bot.send_message(tg_id, f"check your ingame mail for {a.name} x{a.amount}!", reply_markup=menu.menu)
         remaining_resin_recovery_time = notes.remaining_resin_recovery_time
         resin = notes.current_resin
         if resin == 160:
