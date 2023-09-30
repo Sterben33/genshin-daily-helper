@@ -21,6 +21,8 @@ async def scheduled(wait_for, bot: Bot):
         ltuid, ltoken, tg_id = user[0], user[1], user[2]
         client = genshin.Client({"ltuid": user[0], "ltoken": user[1]}, game=genshin.Game.GENSHIN)
         notes = await client.get_notes()
+        if not notes.claimed_commission_reward:
+            await client.claim_daily_reward()
         remaining_resin_recovery_time = notes.remaining_resin_recovery_time
         resin = notes.current_resin
         if resin == 160:
