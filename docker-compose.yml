@@ -1,0 +1,9 @@
+services:
+  nice:
+    build: .
+    volumes:
+      - "bot_data:/app/db/"
+    restart: always
+
+volumes:
+  bot_data:
