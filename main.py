@@ -35,7 +35,7 @@ async def scheduled(wait_for, bot: Bot):
 
 
 async def main():
-    await db.migrate.migrate()
+    db.migrate.migrate()
     bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
     loop = asyncio.get_event_loop()
     loop.create_task(scheduled(60*60, bot))
