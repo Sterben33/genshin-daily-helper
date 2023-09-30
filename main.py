@@ -6,6 +6,8 @@ import sys
 import genshin
 from aiogram import Bot
 from aiogram.enums.parse_mode import ParseMode
+
+import db.migrate
 from roter import dp
 
 TOKEN = "6623864316:AAE7W45MGBnNYaI99TNhCL9pLOszHQ-7Hh8"
@@ -31,7 +33,9 @@ async def scheduled(wait_for, bot: Bot):
             await bot.send_message(tg_id, f"Your resin = {resin} and will recover after {remaining_resin_recovery_time}, go to work nigga!")
     connection.close()
 
+
 async def main():
+    await db.migrate.migrate()
     bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
     loop = asyncio.get_event_loop()
     loop.create_task(scheduled(60*60, bot))
