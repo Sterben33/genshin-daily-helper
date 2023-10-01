@@ -104,13 +104,12 @@ async def echo_handler(message: types.Message) -> None:
 Your have not provided auth data or its expired, set ltuid and ltoken", reply_markup=menu.unauth_menu)
         return
     client = genshin.Client({"ltuid": user[0], "ltoken": user[1]}, game=genshin.Game.GENSHIN)
-    notes = await client.get_notes()
-    claimed_commission_reward = notes.claimed_commission_reward
-    if claimed_commission_reward:
-        await message.answer(f"daily reward already collected", reply_markup=menu.menu)
-    else:
+    try:
         a = await client.claim_daily_reward()
         await message.answer(f"check your ingame mail for {a.name} x{a.amount}!", reply_markup=menu.menu)
+    except genshin.errors.AlreadyClaimed:
+        await message.answer(f"daily reward already collected", reply_markup=menu.menu)
+
 
 
 @dp.message(Command(commands=["menu"]))
