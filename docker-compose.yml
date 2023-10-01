@@ -2,7 +2,7 @@ services:
   nice:
     build: .
     volumes:
-      - "bot_data:/app/db/"
+      - "bot_data:/usr/src/"
     restart: always
 
 volumes:
